@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width" />
+<title>Lista de Candidatos</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"
+	rel="stylesheet" />
+</head>
+<script>
+	function gerarPDF(nome){
+		alert(nome);
+	}
+
+</script>
+<body>
+	<div class="container">
+		<div class="row">
+			<h2></h2>
+		</div>
+		<div class="row">
+			<h3 class="text-center text-primary">Lista de Candidatos</h3>
+			<div class="col-md-12">
+				<table class="table table-hover" id="worked">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Sobrenome</th>
+							<th>Email</th>
+							<th>CV</th>
+							<th>
+								<button type="button" class="btn btn-blue add-row"
+									data-toggle="modal" data-target="#exampleModal">+</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="candidato : ${candidatos}">
+							<td th:text="${candidato.nome}"></td>
+							<td th:text="${candidato.nome}"></td>
+							<td th:text="${candidato.email}"></td>
+							<td>
+							 <a th:href="@{gerarPDF/(id=${candidato.id})}">
+								<img class="info" src="pdf.jpg" />
+							 </a>
+							</td>
+
+							</td>
+							<td>
+								<a  th:href="@{delete/(id=${candidato.id})}" class="btn btn-danger delete-row" >-</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Inserir
+							candidato</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form  method="POST" th:object="${candidato}" th:action="@{/save}" >
+						<div class="modal-body">						
+							<div class="form-group">
+								<label for="inputNome">Nome</label> 
+								<input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Email</label> <input
+									type="email" class="form-control" id="exampleInputEmail1"
+									aria-describedby="emailHelp" placeholder="Enter email" th:field="*{email}">
+							</div>
+							<div class="form-group">
+								<label for="inputFile">Curriculo</label> <input
+									type="file"
+									class="form-control-file text-primary font-weight-bold"
+									id="inputFile" accept="image/*" onchange="readUrl(this)"
+									data-title="Drag and drop a file" th:field="*{cv}">									
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+							<button type="submit" class="btn btn-primary">Salvar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
