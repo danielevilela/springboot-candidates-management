@@ -24,6 +24,7 @@
 		</div>
 		<div class="row">
 			<h3 class="text-center text-primary">Lista de Candidatos</h3>
+			
 			<div class="col-md-12">
 				<table class="table table-hover" id="worked">
 					<thead>
@@ -44,8 +45,8 @@
 							<td th:text="${candidato.nome}"></td>
 							<td th:text="${candidato.email}"></td>
 							<td>
-							 <a th:href="@{gerarPDF/(id=${candidato.id})}">
-								<img class="info" src="pdf.jpg" />
+							 <a th:href="@{gerarPDF/(id=${candidato.id})}" class="btn btn-danger glyphicon glyphicon-save-file">
+								<!-- <img class="info" src="pdf.jpg" />-->
 							 </a>
 							</td>
 

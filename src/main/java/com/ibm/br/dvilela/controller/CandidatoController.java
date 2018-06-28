@@ -1,11 +1,17 @@
 package com.ibm.br.dvilela.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,41 +28,54 @@ public class CandidatoController {
 
 	@Autowired
 	private CandidatoRepository iCandidato;
+
 	
-
-
-	@RequestMapping(path="/candidatos")
+	@GetMapping("/candidatos")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("index");
 		List<Candidato> candidatos = seedCandidato();
 		modelAndView.addObject("candidatos", iCandidato.findAll());
+		modelAndView.addObject("novoCandidato",new Candidato());
 		modelAndView.addObject(new Candidato());
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/save")
 	public String salvar(Candidato candidato) {
-		this.iCandidato.save(candidato); 
+		this.iCandidato.save(candidato);
 		return "redirect:/candidatos";
 	}
-	
-	@RequestMapping(path="/delete")
-	public String delete(@RequestParam(value = "id") Integer id) {
+
+	@GetMapping("/delete")
+	public String delete(Integer id) {
 		this.iCandidato.deleteById(id);
 		return "redirect:/candidatos";
 	}
-	
-	@RequestMapping(path="/gerarPDF")
-	public void gerarPDF(@RequestParam(value = "id") Integer id) {
-		Candidato candidato = iCandidato.findById(id).get();
-		byte[] cv = candidato.getCv();
-		
-		
+
+	@GetMapping("/findOne")
+	public Candidato findOne(Integer id) {
+		return iCandidato.findById(id).get();
 	}
 	
+	@GetMapping("/gerarPDF")
+	public String gerarPDF(Integer id) {
+		Candidato candidato = iCandidato.findById(id).get();
+		byte[] cv = candidato.getCv();
+		return "sucesso" ;
+		
+			
+
+			/*response.setContentType("application/pdf");
+			OutputStream outStream = response.getOutputStream();
+			outStream.write(cv);
+			outStream.close();*/
+		
+
+	}
+
 	public List<Candidato> seedCandidato() {
 		List<Candidato> c = new ArrayList<Candidato>();
-		for(int i = 0; i< 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			Candidato candidato = new Candidato();
 			candidato.setNome("Daniele Souza");
 			candidato.setEmail("danipg88@gmail.com");

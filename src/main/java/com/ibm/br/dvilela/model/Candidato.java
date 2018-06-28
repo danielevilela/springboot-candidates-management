@@ -1,5 +1,7 @@
 package com.ibm.br.dvilela.model;
 
+import java.util.Arrays;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,10 +15,11 @@ public class Candidato {
 	private String email;
 	private byte[] cv;
 	
-	public int getId() {
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getNome() {
@@ -37,6 +40,21 @@ public class Candidato {
 	public void setCv(byte[] cv) {
 		this.cv = cv;
 	}
+	
+	public Candidato(String nome, String email, byte[] cv) {
+		this.nome = nome;
+		this.email = email;
+		this.cv = cv;
+	}
+	
+	public Candidato() {
+	}
+	
+	@Override
+	public String toString() {
+		return "Candidato [id=" + id + ", nome=" + nome + ", email=" + email + ", cv=" + Arrays.toString(cv) + "]";
+	}
+	
 	
 	
 }
